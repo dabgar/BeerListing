@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Beer Branding</title>
+</head>
+<style>
+    .pagination {
+      display: inline-block;
+    }
+    
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+    </style>
+<body>
+
+<div class="pagination">
+  <a href="#">&laquo;</a>
+  <a href="index.html">1</a>
+  <a href="second.html">2</a>
+  <a href="third.html">3</a>
+  <a href="fourth.html">4</a>
+  <a href="fifth.html">5</a>
+  <a href="sixth.html">6</a>
+  <a href="seventh.html">7</a>
+  <a href="eighth.html">8</a>
+  <a href="nineth.html">9</a>
+  <a href="tenth.html">10</a>
+
+  <a href="#">&raquo;</a>
+</div>
+    <div id="myData"></div>
+   
+    <script>
+        fetch('https://s3-ap-southeast-1.amazonaws.com/he-public-data/beercraft5bac38c.json')
+            .then(function (response) {
+                //console.log(response.json())
+                return response.json();
+                
+            })
+           .then(function (data) {
+            console.log(data)
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        fetch('https://s3-ap-southeast-1.amazonaws.com/he-public-data/beerimages7e0480d.json')
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (data) {
+                appendImage(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        
+        function appendData(data) {
+            var mainContainer = document.getElementById("myData");
+            console.log("data.length",data.length)
+            for (var i = 723; i < 964; i++) {
+                var div = document.createElement("div");
+                div.innerHTML = 'abv:'+ data[i].abv +''+ 'ibu:'+data[i].ibu+''+ 'id:'+data[i].id +''  + 'name:'+data[i].name +''+ 'Style:'+data[i].style+''  + 'ounces:'+data[i].ounces;
+                //'<span style="display:inline;"><img src="'+data[i].image+'"></span>';
+                mainContainer.appendChild(div);
+            }
+        }
+        function appendImage(data) {
+           // var mainContainer = document.getElementById("myData");
+           // for (var i = 0; i < div.length; i++) {
+                //var img = document.createElement('img'); 
+                //var div = document.fetch("div")
+                //img.src = data[1].image; 
+                let j=0;
+                console.log(data[0].image)
+                var children=document.getElementById("myData").children;
+               
+                for (var i = 0; i < children.length; i++) {
+                    
+                        var elem = document.createElement("img");
+                    elem.src = data[j].image;
+                    console.log("j value",j)
+                   
+                    elem.setAttribute("height", "40");
+                    elem.setAttribute("width", "40");
+                
+                    j=++j;
+            if(j==5){
+                    j=0;
+                }
+                    //elem.innerHTML='<span style="display:inline;"><img src="'+data[1].image+'"></span>';
+                    children[i].appendChild(elem);
+               
+            }
+           
+                //div.innerHTML = '<span style="display:inline;"><img src="'+data[i].image+'"></span>';
+                //mainContainer.updateChild(div);
+            //}
+        }
+        
+    </script>
+</body>
+</html>
